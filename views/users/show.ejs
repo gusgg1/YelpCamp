@@ -1,0 +1,22 @@
+<% include ../partials/header %>
+
+<div class="row"> 
+  <div class="col-md-4">
+    <h2><%= foundUser.firstName + " " + foundUser.lastName %></h2>
+    <div class="thumbnail">
+      <img src="<%= foundUser.avatar %>" alt="user profile image">
+      <div class="caption"><a href="mailto:<%= foundUser.email %>"><%= foundUser.email %></a></div>
+    </div>
+    Lorem ipsum dolor sit amet, nostro recusabo incorrupte an sed. In nam autem incorrupte. Cum ut liber alterum conceptam, ad duo decore epicuri, alia nihil equidem et vis. Solum aeterno insolens vis te, quo oblique prompta oporteat id. Te cum ignota eirmod vivendum. Viderer evertitur eu has, et eam liber scripta, mei ne unum mutat. Ad explicari mnesarchum delicatissimi his. Usu esse quas zril te, posse vocibus gubergren an mel, quod hinc mea ei. Mel nihil prodesset an, ullum ignota debitis duo ex. Maiorum detracto delicatissimi in per, nec vero tritani ex. Doctus abhorreant reformidans sit cu, velit habemus euripidis mei te.
+  </div>
+  <div class="col-md-8">
+    <h3><%= foundUser.username %>'s campgrounds:</h3>
+    <ul>
+      <% campgrounds.forEach(campground => { %>
+        <li><a href="/campgrounds/<%= campground.id %>"><%= campground.name %></a></li>
+      <% }); %>
+    </ul>
+  </div>
+</div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,53 @@
+<% include ../partials/header %>
+
+<% if (currentUser && currentUser.isAdmin) { %>
+  <h1>You are an admin!</h1>
+<% } %>
+
+<header class="jumbotron">
+  <div class="container">
+    <h1>Welcome To YelpCamp!</h1>
+    <p>View our hand-picked campgrounds from all over the world</p>
+    <p>
+      <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Campground</a>
+    </p>
+    <p>
+      <form action="/campgrounds" method="GET" class="form-inline">
+        <div class="form-group">
+          <input type="text" name="search" placeholder="Campground title search..." class="form-control">
+          <input type="submit" value="Search" class="btn btn-default">
+        </div>
+      </form>
+    </p>
+  </div>
+</header>
+
+<div class="row text-center" style="display:flex; flex-wrap: wrap;">
+  <div class="col-lg-12">
+    <h3>Our Most Popular Campgrounds!</h3>
+  </div>
+
+  <div class="col-md-12">
+    <% if (noMatch !== null) { %>
+      <div class="alert alert-danger" role="alert">
+        <%= noMatch %>
+      </div>
+    <% } %>
+  </div>
+
+  <% campgrounds.forEach(camp => { %>
+  <div class="col-md-3 col-sm-6">
+    <div class="thumbnail">
+      <img src="<%= camp.image %>" alt="">
+      <div class="caption">
+        <h4><%= camp.name %></h4>         
+      </div>
+      <p>
+        <a href="/campgrounds/<%= camp._id %>" class="btn btn-primary">More Info</a>
+      </p>
+    </div>
+  </div>
+  <% }) %>
+</div>
+
+<% include ../partials/footer %>

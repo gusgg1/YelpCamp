@@ -1,0 +1,45 @@
+<% include ./partials/header %>
+
+<div class="row">
+    <h1 style="text-align: center">Sign Up</h1>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/register" method="post">
+            <label for="username">Username:</label>
+            <div class="form-group">
+                <input class="form-control" type="text" name="username" id="username" placeholder="username">
+            </div>
+            <label for="password">Password:</label>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" id="password" placeholder="password">
+            </div>
+
+            <label for="firstName">First Name:</label>
+            <div class="form-group">
+                <input class="form-control" type="text" name="firstName" id="firstName" placeholder="first name">
+            </div>           
+            <label for="lastName">Last Name:</label>
+            <div class="form-group">
+                <input class="form-control" type="text" name="lastName" id="lastName" placeholder="last name">
+            </div>           
+            <label for="email">E-mail:</label>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" id="email" placeholder="email" required>
+            </div>
+            <label for="avatar">Avatar:</label>
+            <div class="form-group">
+                <input class="form-control" type="text" name="avatar" id="avatar" placeholder="your avatar url">
+            </div>
+
+            <label for="admin">Administrator:</label>
+            <div class="form-group">
+                <input class="form-control" type="text" name="admin" id="admin" placeholder="admin credential">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
+            </div>
+        </form>
+        <a href="/campgrounds">Go Back</a>
+    </div>
+</div>
+
+<% include ./partials/footer %>
