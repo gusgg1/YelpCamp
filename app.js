@@ -11,6 +11,7 @@ const Comment        = require("./models/comment");
 const User           = require("./models/user");
 const seedDB         = require("./seeds");
 const methodOverride = require("method-override");
+const port           = process.env.PORT || 3000;
 
 // requiring routes
 const commentRoutes = require("./routes/comments");
@@ -55,6 +56,6 @@ app.use("/campgrounds", campRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 
-app.listen(3000, function() {
+app.listen(port, function() {
   console.log("running on port 3000");
 });
