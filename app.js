@@ -29,6 +29,9 @@ mongoose.connect(databaseUri, { useNewUrlParser: true })
   .then(() => console.log("DB connected"))
   .catch(err => console.log(`DB connection error: ${err.message}`));
 
+// local DB
+// mongoose.connect('mongodb://localhost:27017/yelp_camp', { useNewUrlParser: true });
+
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
