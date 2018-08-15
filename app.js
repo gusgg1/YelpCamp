@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express        = require("express");
 const bodyparser     = require("body-parser");
 const mongoose       = require("mongoose");
@@ -11,7 +10,9 @@ const Comment        = require("./models/comment");
 const User           = require("./models/user");
 const seedDB         = require("./seeds");
 const methodOverride = require("method-override");
-const port           = process.env.PORT || 3000;
+
+// configure dotenv
+require('dotenv').config();
 
 // requiring routes
 const commentRoutes = require("./routes/comments");
@@ -19,7 +20,16 @@ const campRoutes    = require("./routes/campgrounds");
 const indexRoutes   = require("./routes/index");
 
 
-mongoose.connect('mongodb://localhost:27017/yelp_camp', { useNewUrlParser: true });
+// assign mongoose promise library and connect to DB
+mongoose.Promise = global.Promise;
+
+const databaseUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/yelp_camp';
+
+mongoose.connect(databaseUri, { useNewUrlParser: true })
+  .then(() => console.log("DB connected"))
+  .catch(err => console.log(`DB connection error: ${err.message}`));
+
+
 app.use(bodyparser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -56,6 +66,7 @@ app.use("/campgrounds", campRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 
+const port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log("running on port 3000");
 });
