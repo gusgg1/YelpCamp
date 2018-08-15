@@ -203,6 +203,9 @@ router.get("/users/:id", function(req, res) {
         req.flash("error", "Something went wrong.");
         res.redirect("/");
       }
+      if (foundUser.avatar === '') {
+        foundUser.avatar = 'https://res.cloudinary.com/dmvwqhup8/image/upload/v1534311507/default-avatar.jpg';
+      }
       res.render("users/show", { foundUser, campgrounds });
     });
   });
