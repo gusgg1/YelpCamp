@@ -108,7 +108,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
     cloudinary.uploader.upload(req.file.path, function(result) {
       // add cloudinary url for the image to the campground object under image property
       console.log(req.body);
-      req.body.campground.image = result.secure_url || req.body.campground.image;
+      req.body.campground.image = result.secure_url;
       // add author to campground
       req.body.campground.author = {
         id: req.user._id,
@@ -131,8 +131,6 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
       id: req.user._id,
       username: req.user.username
     }
-    // console.log(req.body.image);
-    if (req.body.campground.image === '') console.log("YESYES");
     const newCampground = { name, price, image, description, author }
     // campgrounds.push(newCampground);
     Campground.create(newCampground, function(err, newlyCreated) {
