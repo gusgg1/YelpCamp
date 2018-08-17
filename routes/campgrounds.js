@@ -102,7 +102,8 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
     });
   });*/
 
-
+  
+  // if there is no url provided then we set image to local image provided
   if (req.body.campground.image === '') {
     cloudinary.uploader.upload(req.file.path, function(result) {
       // add cloudinary url for the image to the campground object under image property
