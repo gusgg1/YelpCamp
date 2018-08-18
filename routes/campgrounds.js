@@ -58,26 +58,26 @@ router.get("/", function(req, res) {
 });
 
 
-// CREAT - add new campground to DB
-router.post("/", middleware.isLoggedIn, upload.array('image'), async function(req, res) {
-  // if no image url is provided offer upload option
+// CREATE - add new campground to DB - multiple images upload or URL upload
+router.post("/", middleware.isLoggedIn, upload.array("campground[image]"), async function(req, res){
+  // add author to campground
   if (req.body.campground.image === '') {
-    cloudinary.uploader.upload(req.file.path, function(result) {
-      // add cloudinary url for the image to the campground object under image property
-      console.log(req.body);
-      req.body.campground.image = result.secure_url || req.body.campground.image;
-      // add author to campground
-      req.body.campground.author = {
+    req.body.campground.author = {
         id: req.user._id,
         username: req.user.username
-      }
-      Campground.create(req.body.campground, function(err, campground) {
+    };
+
+    req.body.campground.image = [];
+    for (const file of req.files) {
+        let result = await cloudinary.uploader.upload(file.path);
+        req.body.campground.image.push(result.secure_url);
+    }
+
+    Campground.create(req.body.campground, function(err, campground) {
         if (err) {
-          req.flash('error', err.message);
-          return res.redirect('back');
+            return res.redirect('back');
         }
         res.redirect('/campgrounds/' + campground.id);
-      });
     });
   } else {
     const name = req.body.campground.name;
@@ -88,19 +88,17 @@ router.post("/", middleware.isLoggedIn, upload.array('image'), async function(re
       id: req.user._id,
       username: req.user.username
     }
-    // console.log(req.body.image);
-    if (req.body.campground.image === '') console.log("YESYES");
     const newCampground = { name, price, image, description, author }
-    // campgrounds.push(newCampground);
     Campground.create(newCampground, function(err, newlyCreated) {
       if (err) {
         console.log(err);
       } else {
-        res.redirect("/campgrounds");
+        res.redirect("/campgrounds/" + newlyCreated.id);
       }
     });
   }
 });
+
 
 
 // NEW - show form to make a new campground
@@ -116,7 +114,6 @@ router.get("/:id", function(req, res) {
       req.flash("error", "Campground not found");
       res.redirect("back");
     } else {
-      // console.log(foundCampground);
       res.render("campgrounds/show", { foundCampground });
     }
   });

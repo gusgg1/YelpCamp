@@ -38,7 +38,7 @@
   <% campgrounds.forEach(camp => { %>
   <div class="col-md-3 col-sm-6">
     <div class="thumbnail">
-      <img src="<%= camp.image %>" alt="">
+      <img src="<%= camp.image[0] %>" alt="">
       <div class="caption">
         <h4><%= camp.name %></h4>         
       </div>
