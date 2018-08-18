@@ -11,7 +11,11 @@
   </div>
   <div class="col-md-9">
     <div class="thumbnail">
-      <img class="img-responsive" src="<%= foundCampground.image %>" alt="">
+
+      <% foundCampground.image.forEach(function(image) { %> 
+        <img class="img-responsive" src="<%= image %>">
+      <% }) %>
+      
       <div class="caption">
         <h4 class="pull-right">$<%= foundCampground.price %> / night</h4>
         <h4><a><%= foundCampground.name %></a></h4>
