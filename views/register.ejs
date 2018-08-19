@@ -1,44 +1,36 @@
 <% include ./partials/header %>
 
 <div class="row">
-    <h1 style="text-align: center">Sign Up</h1>
-    <div style="width: 30%; margin: 25px auto;">
-        <form action="/register" method="post">
-            <label for="username">Username:</label>
-            <div class="form-group">
-                <input class="form-control" type="text" name="username" id="username" placeholder="username">
-            </div>
-            <label for="password">Password:</label>
-            <div class="form-group">
-                <input class="form-control" type="password" name="password" id="password" placeholder="password">
-            </div>
+    <div class="col-md-12">
+        <form class="form-signin" action="/register" method="POST">
+            <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
 
-            <label for="firstName">First Name:</label>
-            <div class="form-group">
-                <input class="form-control" type="text" name="firstName" id="firstName" placeholder="first name">
-            </div>           
-            <label for="lastName">Last Name:</label>
-            <div class="form-group">
-                <input class="form-control" type="text" name="lastName" id="lastName" placeholder="last name">
-            </div>           
-            <label for="email">E-mail:</label>
-            <div class="form-group">
-                <input class="form-control" type="email" name="email" id="email" placeholder="email" required>
-            </div>
-            <label for="avatar">Avatar:</label>
-            <div class="form-group">
-                <input class="form-control" type="text" name="avatar" id="avatar" placeholder="your avatar url">
-            </div>
+            <label for="inputUsername" class="sr-only">Username</label>
+            <input class="form-control" type="text" name="username" id="inputUsername" placeholder="username" required autofocus>
+            
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input class="form-control" type="password" name="password" id="inputPassword" placeholder="password" required>
+            
+            <label for="firstName" class="sr-only">First Name</label>
+            <input class="form-control" type="text" name="firstName" id="firstName" placeholder="first name" required>       
 
-            <label for="admin">Administrator:</label>
-            <div class="form-group">
-                <input class="form-control" type="text" name="admin" id="admin" placeholder="admin credential">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
-            </div>
+            <label for="lastName" class="sr-only">Last Name</label>
+            <input class="form-control" type="text" name="lastName" id="lastName" placeholder="last name" required>           
+
+            <label for="email" class="sr-only">E-mail</label>
+            <input class="form-control mb-2" type="email" name="email" id="email" placeholder="email" required>
+            
+            <label for="avatar" class="sr-only">Avatar:</label>
+            <input class="form-control" type="text" name="avatar" id="avatar" placeholder="your avatar url">
+
+            <label for="admin" class="sr-only">Administrator:</label>
+            <input class="form-control mb-2" type="text" name="admin" id="admin" placeholder="admin credential">
+            
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up!</button>
         </form>
-        <a href="/campgrounds">Go Back</a>
+        <div class="form-signin">
+            <a href="/campgrounds">Go Back</a>
+        </div>
     </div>
 </div>
 
