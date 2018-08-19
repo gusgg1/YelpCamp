@@ -24,9 +24,9 @@
           <em>Submitted By <a href="/users/<%= foundCampground.author.id %>"><%= foundCampground.author.username %></a>, <%= moment(foundCampground.createdAt).fromNow() %></em>
         </p>
         <% if (currentUser && foundCampground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
-          <a class="btn btn-xs btn-warning" href="/campgrounds/<%= foundCampground._id %>/edit">Edit</a>
+          <a class="btn btn-xs btn-warning" href="/campgrounds/<%= foundCampground._id %>/edit">Edit Campground</a>
           <form class="delete-form" action="/campgrounds/<%= foundCampground._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-xs btn-danger">Delete</button>
+            <button class="btn btn-xs btn-danger">Delete Campground</button>
           </form>
         <% } %>
       </div>      

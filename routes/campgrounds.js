@@ -135,61 +135,71 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res) 
 });
 
 
-
-// UPDATE CAMPGROUND ROUTE
-router.put("/:id", middleware.checkCampgroundOwnership, function(req, res) {
-  Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground) {
-    if (err) {
-      req.flash("error", err.message);
-      res.redirect("/campgrounds");
-    } else {
-      req.flash("success", "Successfully Updated!");
-      res.redirect(`/campgrounds/${req.params.id}`);
-    }
-  });
-});         
-
-
-/*
 // UPDATE CAMPGROUND ROUTE
 router.put("/:id", middleware.checkCampgroundOwnership, upload.array('campground[image]'), function(req, res) {
   Campground.findById(req.params.id, async function(err, campground) {
     if (err) {
       req.flash("error", err.message);
       res.redirect("back");
-    } else {
+    } else {  
       // We check if there is a file, if there is we know user is trying to upload a new img for that campground
-      if (req.file) {
+      if (req.files && req.body.campground.image === '') {
         try {
-          await cloudinary.v2.uploader.destroy(campground.imageId);
-          let result = await cloudinary.v2.uploader.upload(req.file.path);
-          campground.imageId = result.public_id;
-          campground.image = result.secure_url;
+
+          campground.imageId.forEach(async function(id) {
+            await cloudinary.v2.uploader.destroy(id);
+          });
+
+          campground.image = [];
+
+          for (const file of req.files) {
+            let result = await cloudinary.v2.uploader.upload(file.path);
+            campground.image.push(result.secure_url);
+            campground.imageId.push(result.public_id);
+          }
         } catch(err) {
           req.flash("error", err.message);
           return res.redirect("back");
         }
       }
+      if (req.body.campground.image.length > 0) {
+        campground.imageId.forEach(async function(id) {
+          await cloudinary.v2.uploader.destroy(id);
+        });
+        campground.image = req.body.campground.image;
+      }
       campground.name = req.body.campground.name;
       campground.description = req.body.campground.description;
+      campground.price = req.body.campground.price;
       campground.save();
       req.flash("success", "Successfully Updated!");
-      res.redirect("/campground/" + campground._id);
+      res.redirect(`/campgrounds/${req.params.id}`);
     }
   });
-}); */
+}); 
 
 
 // DESTROY CAMPGROUND ROUTE
 router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res) {
-  Campground.findByIdAndRemove(req.params.id, function(err) {
+  Campground.findById(req.params.id, async function(err, campground) {
     if (err) {
+      req.flash("error", err.message);
+      return res.redirect("back");
+    }
+    try {
+      campground.imageId.forEach(async function(id) {
+        await cloudinary.v2.uploader.destroy(id);
+      });
+      campground.remove();
+      req.flash("success", "Campground deleted successfully");
       res.redirect("/campgrounds");
-    } else {
-      res.redirect("/campgrounds");
+    } catch(err) {
+      req.flash("error", err.message);
+      return res.redirect("back");
     }
   });
 });
+
 
 function escapeRegex(query) {
   return query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
