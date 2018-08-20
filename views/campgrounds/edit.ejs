@@ -1,42 +1,35 @@
 <% include ../partials/header %>
 
 <div class="row">
-  <h1 style="text-align: center;">Edit <%= foundCampground.name %></h1>
+  <div class="col-md-12">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Edit <%= foundCampground.name %></h1>
+    <form class="form-signin" action="/campgrounds/<%= foundCampground._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+      
+      <label for="inputCampname" class="sr-only">Name</label>
+      <input id="inputCampname" class="form-control mb-2" type="text" name="campground[name]" value="<%= foundCampground.name %>" autofocus>
+      
+      <label for="price" class="sr-only">Price</label>
+      <input id="price" class="form-control mb-2" type="number" name="campground[price]" value="<%= foundCampground.price %>" min="0.01" step="0.01">
+      
+      <label for="desc" class="sr-only">Description</label>
+      <input id="desc" class="form-control mb-2" type="text" name="campground[description]" value="<%= foundCampground.description %>">
+      
+      <label for="image">Image Link (keep or change URL)</label>
+      <% const imageObj = JSON.stringify(foundCampground.image) %>
+      <% const imageStr = imageObj %>
+      <% const imageURL = imageStr.includes(',') ? '' : foundCampground.image %>
+      <input id="image" class="form-control mb-2" type="text" name="campground[image]" value="<%= imageURL %>">
 
-  <div style="width: 30%; margin: 25px auto;">
-    <form action="/campgrounds/<%= foundCampground._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input id="name" class="form-control" type="text" name="campground[name]" value="<%= foundCampground.name %>">
-      </div>
-      <div class="form-group">
-        <label for="price">Price:</label>
-        <input id="price" class="form-control" type="number" name="campground[price]" value="<%= foundCampground.price %>" min="0.01" step="0.01">
-      </div>
-      <div class="form-group">
-        <label for="desc">Description:</label>
-        <input id="desc" class="form-control" type="text" name="campground[description]" value="<%= foundCampground.description %>">
-      </div>
-      <div class="form-group">
-        <label for="image">Image Link (keep or change URL):</label>
-        <input id="image" class="form-control" type="text" name="campground[image]" value="<%= foundCampground.image %>">
-      </div>
+      <p class="text-center">Or chose one or more of your own images.</p>
 
-      <p class="centered">Or chose one or more of your own images.</p>
-
-      <div class="form-group">
-        <label for="img">Image File:</label>
-        <input id="img" type="file" name="campground[image]" accept="image/*" multiple="">
-      </div>
-
-      <div class="form-group">
-        <button class="btn btn-lg btn-primary btn-block">Submit</button>
-      </div>
+      <label for="img">Image file(s)</label>
+      <input id="img" class="form-control mb-2" type="file" name="campground[image]" accept="image/*" multiple="">
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form>
-    <a href="/campgrounds">Go Back</a>
+    <div class="form-signin">
+      <a href="/campgrounds/<%= foundCampground._id %>">Go Back</a>
+    </div>
   </div>
-
 </div>
-
 
 <% include ../partials/footer %>

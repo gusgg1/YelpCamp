@@ -6,6 +6,7 @@ const Campground = require("../models/campground");
 const async      = require("async");
 const nodemailer = require("nodemailer");
 const crypto     = require("crypto");
+const moment     = require("moment");
 
 // root route
 router.get("/", function(req, res) {
@@ -24,7 +25,8 @@ router.post("/register", function(req, res) {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    avatar: req.body.avatar
+    avatar: req.body.avatar,
+    createdAt: User.createdAt
   });
 
   if (req.body.admin === "secretcode123") {
@@ -54,15 +56,15 @@ router.get("/login", function(req, res) {
 router.post("/login", passport.authenticate("local", {
   successRedirect: "/campgrounds",
   failureRedirect: "/login",
-  failureFlash: true 
+  failureFlash: true,
+  successFlash: 'Welcome to YelpCamp!' 
 }), function(req, res) {
-
 });
 
 // logic logout route
 router.get("/logout", function(req, res) {
   req.logout();
-  req.flash("success", "Logged you out!");
+  req.flash("success", "See you soon :)");
   res.redirect("/campgrounds");
 });
 

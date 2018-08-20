@@ -2,7 +2,6 @@
 
 <div class="row">
   <div class="col-md-3">
-    <p class="lead">YelpCamp</p>
     <div class="list-group">
       <li class="list-group-item active">Info 1</li>
       <li class="list-group-item">Info 2</li>
@@ -10,52 +9,64 @@
     </div>
   </div>
   <div class="col-md-9">
-    <div class="thumbnail">
-
+    <div class="card mb-3">
       <% foundCampground.image.forEach(function(image) { %> 
-        <img class="img-responsive" src="<%= image %>">
-      <% }) %>
-      
-      <div class="caption">
-        <h4 class="pull-right">$<%= foundCampground.price %> / night</h4>
-        <h4><a><%= foundCampground.name %></a></h4>
-        <p><%= foundCampground.description %></p>
+        <img class="card-img-top" src="<%= image %>" alt="image of a campground">
+      <% }); %>
+      <div class="card-body">
+        <p class="float-right">$<%= foundCampground.price %> / night</p>
+        <h5 class="card-title"><%= foundCampground.name %></h5>
         <p>
-          <em>Submitted By <a href="/users/<%= foundCampground.author.id %>"><%= foundCampground.author.username %></a>, <%= moment(foundCampground.createdAt).fromNow() %></em>
+          <em>Submitted by: <a href="/users/<%= foundCampground.author.id %>"><%= foundCampground.author.username %></a>, <%= moment(foundCampground.createdAt).fromNow() %></em>
         </p>
+        <hr>
+        <p><%= foundCampground.description %></p>
         <% if (currentUser && foundCampground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
-          <a class="btn btn-xs btn-warning" href="/campgrounds/<%= foundCampground._id %>/edit">Edit Campground</a>
+          <a class="btn btn-sm btn-warning" href="/campgrounds/<%= foundCampground._id %>/edit">Edit Campground</a>
           <form class="delete-form" action="/campgrounds/<%= foundCampground._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-xs btn-danger">Delete Campground</button>
+            <button class="btn btn-sm btn-danger">Delete Campground</button>
           </form>
         <% } %>
-      </div>      
-    </div>
-    <div class="well">
-      <div class="text-right">
-        <a class="btn btn-success" href="/campgrounds/<%= foundCampground._id %>/comments/new">Add New Comment</a>
       </div>
-      <hr>
-      <% foundCampground.comments.forEach(comment => { %>
-        <div class="row">
-          <div class="col-md-12">
-            <strong><%= comment.author.username %></strong>
-            <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
-            <p>
-              <%= comment.text %>
-            </p>
-            <% if (currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
-              <a class="btn btn-xs btn-warning" 
-                href="/campgrounds/<%= foundCampground._id %>/comments/<%= comment._id %>/edit">
-                Edit
-              </a>
-              <form class="delete-form" action="/campgrounds/<%= foundCampground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                <input class="btn btn-xs btn-danger" type="submit" value="Delete">
-              </form>
-            <% } %>
-          </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="text-right">
+          <a class="btn btn-success" href="/campgrounds/<%= foundCampground._id %>/comments/new">Add New Comment</a>
         </div>
-      <% }); %>
+        <hr>
+        <div class="row">
+          <% foundCampground.comments.forEach(comment => { %>
+            <div class="col-md-12 mb-2">
+              <div class="card">
+                <div class="card-body">
+                  <div class="float-left">
+                    <a href="/users/<%= comment.author.id %>">
+                      <p class="card-title"><%= comment.author.username %></p>                    
+                    </a>
+                    <p class="card-text"><%= comment.text %></p>
+                  </div>
+                  <div class="float-right">
+                    <p><%= moment(comment.createdAt).fromNow() %></p>
+                    <% if (currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
+                      <div class="float-right">
+                        <a class="btn btn-sm btn-warning" 
+                          href="/campgrounds/<%= foundCampground._id %>/comments/<%= comment._id %>/edit">
+                          Edit
+                        </a>
+                        <form class="delete-form" action="/campgrounds/<%= foundCampground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                          <input class="btn btn-sm btn-danger" type="submit" value="Delete">
+                        </form>
+                      </div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

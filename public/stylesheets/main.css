@@ -40,6 +40,15 @@ body {
 
 
 /* MY CUSTOM STLES */
+.logo {
+  width: 10%;
+  margin-right: 150px;
+}
+
+.nav-link {
+  font-size: 1.3em;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -70,6 +79,13 @@ body {
   margin-left: 10px;
 }
 
-.centered {
-  text-align: center;
+a:hover {
+  text-decoration: none;
+  color: #00A99D;
+}
+
+@media only screen and (max-width: 900px) {
+  .logo {
+    display: none;
+  }
 }
