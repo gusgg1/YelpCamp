@@ -4,6 +4,7 @@ const Campground = require("../models/campground");
 const middleware = require("../middleware");
 const multer     = require('multer');
 const cloudinary = require('cloudinary');
+const mongoose   = require("mongoose");
 
 
 // Config multer
@@ -30,33 +31,55 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-
 // INDEX - Show all campgrounds
 router.get("/", function(req, res) {
   let noMatch = null;
+  const perPage = 8;
+  const pageQuery = parseInt(req.query.page);
+  const pageNumber = pageQuery ? pageQuery : 1;
+
   if (req.query.search) {
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-    Campground.find({ name: regex }, function(err, campgrounds) {
-      if (err) {
-        console.log(err);
-      } else {
-        if (campgrounds.length < 1) {
-          noMatch = "No campgrounds match that query, please try again."
+    Campground.find({ name: regex }).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, campgrounds) {
+      Campground.count({name: regex}).exec(function (err, count) {
+        if (err) {
+          console.log(err);
+          res.redirect("back");
+        } else {
+          if (campgrounds.length < 1) {
+            noMatch = "No campgrounds match that query, please try again."
+          }
+          res.render("campgrounds/index", { 
+            campgrounds, 
+            page: "campgrounds",
+            noMatch,
+            pages: Math.ceil(count / perPage),
+            search: req.query.search, 
+            current: pageNumber
+          });
         }
-        res.render("campgrounds/index", { campgrounds, page: "campgrounds", noMatch });
-      }
+      });
     });
   } else {
-    Campground.find({}, function(err, campgrounds) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.render("campgrounds/index", { campgrounds, page: "campgrounds", noMatch });
-      }
+    // get all campgrounds from DB
+    Campground.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, campgrounds) {
+      Campground.count().exec(function (err, count) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.render("campgrounds/index", { 
+            campgrounds, 
+            page: "campgrounds", 
+            noMatch,
+            current: pageNumber,
+            pages: Math.ceil(count / perPage),
+            search: false 
+          });
+        }
+      });
     });
   }
 });
-
 
 // CREATE - add new campground to DB - multiple images upload or URL upload
 router.post("/", middleware.isLoggedIn, upload.array("campground[image]"), async function(req, res){
