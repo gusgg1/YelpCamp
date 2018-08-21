@@ -31,3 +31,6 @@ $('#campground-search').on('input', function() {
   });
 });
 
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})

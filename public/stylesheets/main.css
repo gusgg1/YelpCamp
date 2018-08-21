@@ -45,6 +45,21 @@ body {
   margin-right: 150px;
 }
 
+.theme-color {
+  background-color: #00A99D;
+  border-color: #00A99D;
+}
+
+.theme-color:hover {
+  background-color: #006E67;
+  border-color: #006E67
+}
+
+#button:focus {
+  background-color: #00A99D;
+  border-color: #00A99D;
+}
+
 .nav-link {
   font-size: 1.3em;
 }
