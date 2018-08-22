@@ -37,8 +37,8 @@
 
   <% campgrounds.forEach(camp => { %>
   <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-    <div class="card">
-      <img class="card-img-top" src="<%= camp.image[0] %>" alt="<%= camp.name %>">
+    <div class="card trans">
+      <img class="card-img-top sized" src="<%= camp.image[0] %>" alt="<%= camp.name %>">
       <div class="card-body">
         <h5 class="card-title"><%= camp.name %></h5>
         <a href="/campgrounds/<%= camp._id %>" class="btn btn-primary">More Info</a>
