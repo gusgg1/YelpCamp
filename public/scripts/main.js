@@ -34,3 +34,18 @@ $('#campground-search').on('input', function() {
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
+
+
+const titles = document.querySelectorAll(".tool-short");
+titles.forEach(title => {
+  if (title.innerText.length > 17) {
+    console.log(title);
+    const newTitle = title.innerText.substring(0, 13) + '...';
+    title.innerHTML = `<h5 class="card-title tool-short" data-toggle="tooltip" data-placement="right" title="${newTitle}">${newTitle}</h5>`
+  }
+});
+
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
