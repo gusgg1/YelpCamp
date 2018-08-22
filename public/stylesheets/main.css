@@ -73,7 +73,7 @@ body {
   transition: transform 1.25s;
 }
 .trans:hover .sized {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 
