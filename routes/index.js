@@ -29,7 +29,7 @@ router.post("/register", function(req, res) {
     createdAt: User.createdAt
   });
 
-  if (req.body.admin === "secretcode123") {
+  if (req.body.admin === process.env.SECRET_CODE) {
     newUser.isAdmin = true;
   }
 
