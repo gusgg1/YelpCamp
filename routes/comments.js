@@ -28,6 +28,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
           req.flash("error", "Something went wrong");
           console.log(err);
         } else {
+          comment.rating = req.body.rating;
           // add username and id to comment
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;

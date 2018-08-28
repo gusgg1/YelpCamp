@@ -76,6 +76,9 @@ body {
   transform: scale(1.1);
 }
 
+.font-sized {
+  font-size: 1em;
+}
 
 .nav-link {
   font-size: 1.3em;
