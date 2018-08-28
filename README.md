@@ -24,8 +24,9 @@
 * If user forgot his password, user can receive a token in his mailbox with expiration time to change his password.
 * The app uses flash messages to notify user of successful or unsuccessful actions.
 * If the name of a campground is too large, it will be shorten and a tooltip will display the full name when hover over the title.
-* User has the option to rate the campground when adding a comment to any campground.    
+* User has the option to rate the campground when adding a comment to any campground.
+* If e-mail address is not properly formatted, real time validation will be displayed on the frontend. 
+  * On the backend the form won't submit until e-mail address is of proper format.    
 
 #### Features to come
-* Proper form validation
 * Google maps automatic geolocation

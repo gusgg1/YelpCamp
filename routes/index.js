@@ -19,32 +19,39 @@ router.get("/register", function(req, res) {
 });
 
 // handle sign up logic
-router.post("/register", function(req, res) {
-  const newUser = new User({
-    username: req.body.username,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    avatar: req.body.avatar,
-    createdAt: User.createdAt
-  });
-
-  if (req.body.admin === process.env.SECRET_CODE) {
-    newUser.isAdmin = true;
-  }
-
-  // here is where we hash the pw
-  User.register(newUser, req.body.password, function(err, user) {
-    if (err) {
-      // req.flash("error", err.message);
-      // return res.redirect("/register");
-      return res.render("register", { "error": err.message })
-    }
-    passport.authenticate("local")(req, res, function() {
-      req.flash("success", `Welcome to YelpCamp ${user.username}`);
-      res.redirect("/campgrounds");
+router.post("/register", function(req, res, next) {
+  if( /(.+)@(.+){2,}\.(.+){2,}/.test(req.body.email) ){
+    // valid email format
+    const newUser = new User({
+      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      avatar: req.body.avatar,
+      createdAt: User.createdAt
     });
-  });
+  
+    if (req.body.admin === process.env.SECRET_CODE) {
+      newUser.isAdmin = true;
+    }
+  
+    // here is where we hash the pw
+    User.register(newUser, req.body.password, function(err, user) {
+      if (err) {
+        // req.flash("error", err.message);
+        // return res.redirect("/register");
+        return res.render("register", { "error": err.message })
+      }
+      passport.authenticate("local")(req, res, function() {
+        req.flash("success", `Welcome to YelpCamp ${user.username}`);
+        res.redirect("/campgrounds");
+      });
+    });
+  } else {
+    // invalid email
+    req.flash("error", `The provided e-mail address ${req.body.email} is not a valid format.`);
+    res.redirect("/register");
+  }
 });
 
 // show login form
